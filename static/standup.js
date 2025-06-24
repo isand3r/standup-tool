@@ -1,24 +1,15 @@
+import { teamMembers } from './team-members.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const teamMembersContainer = document.getElementById('teamMembers');
     const pickButton = document.getElementById('pickButton');
     const resetButton = document.getElementById('resetButton');
     const currentSpeakerContainer = document.getElementById('currentSpeaker');
-    const speakingOrderContainer = document.getElementById('speakingOrder');
     const allDoneMessageContainer = document.getElementById('allDoneMessage');
 
-    let teamMembers = [];
-    let speakingOrder = [];
-    let remainingMembers = [];
+    let remainingMembers = [...teamMembers];
 
-    // Fetch team members
-    fetch('/api/team')
-        .then(response => response.json())
-        .then(data => {
-            teamMembers = data;
-            remainingMembers = [...teamMembers];
-            renderTeamMembers();
-            loadSpeakingOrder();
-        });
+    renderTeamMembers();
 
     // Render team members
     function renderTeamMembers() {
@@ -30,34 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
     }
 
-    // Load speaking order from localStorage
-    function loadSpeakingOrder() {
-        const savedOrder = localStorage.getItem('standupSpeakingOrder');
-        const savedRemaining = localStorage.getItem('standupRemainingMembers');
-
-        if (savedOrder) {
-            speakingOrder = JSON.parse(savedOrder);
-            renderSpeakingOrder();
-        }
-
-        if (savedRemaining) {
-            remainingMembers = JSON.parse(savedRemaining);
-        }
-    }
-
-    // Save speaking order to localStorage
-    function saveSpeakingOrder() {
-        localStorage.setItem('standupSpeakingOrder', JSON.stringify(speakingOrder));
-        localStorage.setItem('standupRemainingMembers', JSON.stringify(remainingMembers));
-    }
-
     // Check if all available members have spoken
     function allAvailableMembersHaveSpoken() {
         const availableNames = teamMembers.filter(member =>
             document.querySelector(`input[name="${member}"]`).checked
         );
-        return speakingOrder.length > 0 &&
-               availableNames.every(name => speakingOrder.includes(name));
+        return remainingMembers.length === 0 && availableNames.length > 0;
     }
 
     // Pick next speaker
@@ -79,10 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Reset remaining members if all have spoken
         if (remainingMembers.length === 0) {
-            remainingMembers = availableNames.filter(name => !speakingOrder.includes(name));
-            if (remainingMembers.length === 0) {
-                remainingMembers = [...availableNames];
-            }
+            remainingMembers = [...availableNames];
         }
 
         // Filter remaining members by availability
@@ -97,37 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const picked = remainingMembers[index];
         remainingMembers.splice(index, 1);
 
-        speakingOrder.push(picked);
         currentSpeakerContainer.innerHTML = `<span class="selected-name">${picked}</span>`;
         allDoneMessageContainer.style.display = 'none';
-        renderSpeakingOrder();
-        saveSpeakingOrder();
     });
 
     // Reset speaking order
     resetButton.addEventListener('click', () => {
         if (confirm('Are you sure you want to reset the speaking order?')) {
-            speakingOrder = [];
             remainingMembers = [...teamMembers];
             currentSpeakerContainer.innerHTML = '';
             allDoneMessageContainer.style.display = 'none';
-            renderSpeakingOrder();
-            saveSpeakingOrder();
         }
     });
-
-    // Render speaking order
-    function renderSpeakingOrder() {
-        if (speakingOrder.length === 0) {
-            speakingOrderContainer.innerHTML = '<div class="history-entry">No updates given yet</div>';
-            return;
-        }
-
-        speakingOrderContainer.innerHTML = speakingOrder.map((name, index) => `
-            <div class="history-entry">
-                <div class="history-date">#${index + 1}</div>
-                <div>${name}</div>
-            </div>
-        `).join('');
-    }
 });
