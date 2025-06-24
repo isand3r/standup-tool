@@ -4,6 +4,77 @@
     --background-color: #f8f9fa;
     --border-color: #dee2e6;
     --text-color: #212529;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+}
+
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 1000;
+    max-width: 400px;
+    animation: slideIn 0.3s ease-out;
+}
+
+.notification.error {
+    border-left: 4px solid var(--error-color);
+}
+
+.notification.success {
+    border-left: 4px solid var(--success-color);
+}
+
+.notification.warning {
+    border-left: 4px solid var(--warning-color);
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    font-size: 1.2rem;
+    margin-left: auto;
+}
+
+.notification-close:hover {
+    color: var(--error-color);
+}
+
+.notification button {
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    background-color: var(--warning-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.notification button:hover {
+    background-color: #e0a800;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 body {
@@ -71,17 +142,175 @@ h1, h2 {
     margin-bottom: 1.5rem;
 }
 
+
+.team-form,
+.member-form {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+}
+
+.team-form .input-field,
+.member-form .input-field {
+    min-width: 200px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    flex: 1;
+}
+
+.team-form button,
+.member-form button {
+    padding: 0.75rem 1.5rem;
+    white-space: nowrap;
+}
+
+.team-list-container,
+.member-form-container {
+    background: white;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    transition: all 0.3s ease;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.section-header h2 {
+    margin: 0;
+}
+
+.collapse-toggle {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.collapsible-section.collapsed .collapse-toggle {
+    transform: rotate(-90deg);
+}
+
+.collapsible-section.collapsed > *:not(.section-header) {
+    display: none;
+}
+
+.collapsible-section.collapsed {
+    padding: 1rem 1.5rem;
+}
+
+.team-list-container h2,
+.member-form-container h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.team-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.team-list li {
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team-list li:hover {
+    background-color: var(--background-color);
+}
+
+.team-list li.active {
+    border: 2px solid var(--primary-color);
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+}
+
+.team-list li.active .team-count {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.team-count {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    background-color: rgba(0, 160, 168, 0.1);
+    border-radius: 12px;
+}
+
+.edit-team-button,
+.delete-team-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    margin-left: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.edit-team-button {
+    color: var(--primary-color);
+}
+
+.delete-team-button {
+    color: var(--error-color);
+}
+
+.edit-team-button:hover,
+.delete-team-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.team-list li.active .edit-team-button,
+.team-list li.active .delete-team-button {
+    color: white;
+}
+
+.team-list li.active .edit-team-button:hover,
+.team-list li.active .delete-team-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.empty-state {
+    color: #6c757d;
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--background-color);
+    border-radius: 4px;
+    font-style: italic;
+}
+
 .team-list {
     background: white;
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 2rem;
 }
 
 .team-member {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0.5rem;
     border-bottom: 1px solid var(--border-color);
 }
@@ -90,9 +319,29 @@ h1, h2 {
     border-bottom: none;
 }
 
+.member-controls {
+    display: flex;
+    align-items: center;
+}
+
 .team-member label {
     margin-left: 0.5rem;
     cursor: pointer;
+}
+
+.remove-button {
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.remove-button:hover {
+    background-color: rgba(220, 53, 69, 0.1);
 }
 
 .actions {
@@ -128,6 +377,59 @@ button {
     background-color: #226600;
 }
 
+.current-speaker-section {
+    background: linear-gradient(to right, #ffffff, #f8f9fa);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 3rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.current-speaker-section h2 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mic-icon {
+    font-size: 1.5rem;
+    animation: pulse 2s infinite;
+}
+
+.current-speaker-display {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    min-height: 60px;
+    transition: all 0.3s ease;
+}
+
+.animate-new-speaker {
+    animation: highlightSpeaker 0.5s ease-out;
+}
+
+@keyframes highlightSpeaker {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 rgba(0, 82, 145, 0);
+    }
+    50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 20px rgba(0, 82, 145, 0.3);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+}
+
 .selected-names {
     background: white;
     padding: 1.5rem;
@@ -137,13 +439,40 @@ button {
     min-height: 50px;
 }
 
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 .selected-name {
     display: inline-block;
     background-color: var(--secondary-color);
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    margin: 0.25rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 25px;
+    margin: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .history-list {
@@ -183,13 +512,15 @@ button {
     font-weight: bold;
 }
 
-#allDoneMessage {
-    margin-top: 1rem;
-    padding: 1rem;
+.all-done-message {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
     background-color: #e8f5e9;
-    border: 1px solid var(--secondary-color);
-    border-radius: 8px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 12px;
     color: var(--secondary-color);
+    font-size: 1.1rem;
+    animation: slideIn 0.4s ease-out;
 }
 
 #allDoneMessage p {
@@ -197,6 +528,24 @@ button {
 }
 
 @media (max-width: 768px) {
+    .current-speaker-section {
+        padding: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .current-speaker-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .current-speaker-display {
+        padding: 1.5rem;
+    }
+
+    .selected-name {
+        padding: 0.5rem 1rem;
+        font-size: 1.1rem;
+    }
+
     .layout {
         flex-direction: column;
     }
@@ -227,5 +576,9 @@ button {
 
     button {
         width: 100%;
+    }
+
+    .team-form {
+        flex-direction: column;
     }
 }

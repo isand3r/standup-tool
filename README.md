@@ -26,7 +26,3 @@ Follow the [official Deno installation guide](https://deno.land/#installation).
    ```
 
 1. Open <http://localhost:8000> in your web browser.
-
-## Configuration
-
-Team members' names can be added or removed [here](./static/team-members.js).

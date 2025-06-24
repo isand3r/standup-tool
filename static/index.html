@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+    <div id="notification" class="notification" style="display: none;">
+        <span id="notificationMessage"></span>
+        <button class="notification-close">×</button>
+    </div>
     <div class="layout">
         <nav class="sidebar">
             <h2>Toolbox</h2>
@@ -17,8 +21,27 @@
         <div class="content">
             <h1>Standup</h1>
 
-            <div class="team-list">
-                <h2>Team Members</h2>
+            <div class="team-list-container collapsible-section">
+                <div class="section-header">
+                    <h2>Teams</h2>
+                    <button class="collapse-toggle">▼</button>
+                </div>
+                <div class="team-form">
+                    <input type="text" id="newTeamName" placeholder="New Team Name" class="input-field">
+                    <button id="addTeamButton" class="secondary-button">Add Team</button>
+                </div>
+                <ul id="teamList" class="team-list"></ul>
+            </div>
+
+            <div class="team-list collapsible-section">
+                <div class="section-header">
+                    <h2>Team Members</h2>
+                    <button class="collapse-toggle">▼</button>
+                </div>
+                <div class="member-form">
+                    <input type="text" id="memberName" placeholder="Member Name" class="input-field">
+                    <button id="addMemberButton" class="secondary-button">Add Member</button>
+                </div>
                 <div id="teamMembers"></div>
             </div>
 
@@ -27,10 +50,10 @@
                 <button id="resetButton" class="secondary-button">Reset Order</button>
             </div>
 
-            <div class="results">
-                <h2>Current Speaker</h2>
-                <div id="currentSpeaker" class="selected-names"></div>
-                <div id="allDoneMessage" style="display: none;">
+            <div class="results current-speaker-section">
+                <h2><span class="mic-icon">🎤</span> Current Speaker</h2>
+                <div id="currentSpeaker" class="selected-names current-speaker-display"></div>
+                <div id="allDoneMessage" style="display: none;" class="all-done-message">
                     <p>All available team members have given their updates. Click "Reset Order" to start a new round.</p>
                 </div>
             </div>
